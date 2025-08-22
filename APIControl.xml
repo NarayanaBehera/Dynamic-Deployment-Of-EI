@@ -1,0 +1,49 @@
+<api xmlns="http://ws.apache.org/ns/synapse" name="APIControl" context="/api-control">
+    <resource methods="POST" url-mapping="/disable">
+        <inSequence>
+            <property name="apiName" expression="json-eval($.apiName)" scope="default"/>
+            <property name="action" value="disable"/>
+            <class name="com.example.ei.APIControlMediator"/>
+            
+            <!-- Build JSON Response -->
+            <payloadFactory media-type="json">
+                <format>
+                    {
+                        "apiName": "$1",
+                        "status": "$2"
+                    }
+                </format>
+                <args>
+                    <arg evaluator="xml" expression="get-property('apiName')"/>
+                    <arg evaluator="xml" expression="get-property('apiStatus')"/>
+                </args>
+            </payloadFactory>
+
+            <respond/>
+        </inSequence>
+    </resource>
+
+    <resource methods="POST" url-mapping="/enable">
+        <inSequence>
+            <property name="apiName" expression="json-eval($.apiName)" scope="default"/>
+            <property name="action" value="enable"/>
+            <class name="com.example.ei.APIControlMediator"/>
+            
+            <!-- Build JSON Response -->
+            <payloadFactory media-type="json">
+                <format>
+                    {
+                        "apiName": "$1",
+                        "status": "$2"
+                    }
+                </format>
+                <args>
+                    <arg evaluator="xml" expression="get-property('apiName')"/>
+                    <arg evaluator="xml" expression="get-property('apiStatus')"/>
+                </args>
+            </payloadFactory>
+
+            <respond/>
+        </inSequence>
+    </resource>
+</api>
